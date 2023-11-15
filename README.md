@@ -10,7 +10,7 @@
 ## Download
 Get the App apk format [here](https://github.com/emanuelet123/ToDoApp/blob/main/bin).
 
->Android >= 8.0
+Android >= 8.0
 
 ## License
 To-Do App is released under the terms of [MIT License](https://github.com/emanuelet123/ToDoApp/blob/main/LICENSE).
