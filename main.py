@@ -2,6 +2,14 @@ from kivy import require
 # Kivy version used in this project
 require("2.2.1")
 
+from kivy.core.window import Window
+
+# Keyboard animation when TextInput focus = True
+Window.keyboard_anim_args = {"duration": 0.2, "transition": "linear"}
+
+# Bring the keyboard below TextInput when focus = True
+Window.softinput_mode = "below_target"
+
 from kivymd.uix.list import OneLineAvatarIconListItem
 from kivymd.app import MDApp
 from kivy.lang import Builder
