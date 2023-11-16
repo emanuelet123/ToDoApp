@@ -5,7 +5,7 @@ require("2.2.1")
 from kivy.core.window import Window
 
 # Keyboard animation when TextInput focus = True
-Window.keyboard_anim_args = {"duration": 0.2, "transition": "linear"}
+Window.keyboard_anim_args = {"d": 0.2, "t": "linear"}
 
 # Bring the keyboard below TextInput when focus = True
 Window.softinput_mode = "below_target"
