@@ -158,8 +158,6 @@ class ToDoListScreen(MDScreen):
         # Set values
         value = item.parent.parent.ids.restore_text_input.text
         all_widgets = [i.title for i in app.original_order]
-        # Set text
-        self.ids.loading_text.text = "LOADING..."
 
         if "\_/" in value:
             # Search for the list_item that has value in its title property
@@ -170,9 +168,6 @@ class ToDoListScreen(MDScreen):
 
             # Update database
             self.save_user_data()
-             
-        # Set text
-        self.ids.loading_text.text = ""
 
     # ------------------------------------------------------------------------------------------------------------------
     def search_for_item(self, value):
