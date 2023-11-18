@@ -32,6 +32,9 @@
                 id: loading_text
                 text: "LOADING..."
 
+        MyMenu2:
+            id: my_menu2
+
         MyMenu:
             id: my_menu
 
@@ -66,15 +69,15 @@
         id: boxlay
         orientation: "horizontal"
         spacing: "5dp"
-        padding: ["10dp", "0dp", "0dp", "0dp"]
 
-        MDIcon:
-            id: search_icon
+        MDIconButton:
+            id: search_icon_button
             icon: "magnify"
-            font_size: "35dp"
+            icon_size: "35dp"
             theme_text_color: "Custom"
             text_color: app.black
-            pos_hint: {"center_y": 0.5}
+            ripple_scale: 0
+            pos_hint: {"center_y": 0.5} 
 
         TextInput:
             id: search_text_input
@@ -86,7 +89,7 @@
             font_name: app.font_thin
             font_size: "15.5dp"
             size_hint: (None, None)
-            width: boxlay.width - plus_icon_button.width - search_icon.width - close_icon_button.width - dp(25)
+            width: boxlay.width - plus_icon_button.width - search_icon_button.width - close_icon_button.width - dp(15)
             height: boxlay.height
             multiline: False
             halign: "left"
@@ -112,7 +115,60 @@
             ripple_scale: 0
             pos_hint: {"center_y": 0.5}
 
+<MyMenu2@MDCard>:
+    size_hint: (1, None)
+    height: "50dp"
+    radius: [0, 0, 0, 0]
+    
+    BoxDark:
+        id: boxlay
+        orientation: "horizontal"
+        spacing: "5dp"
 
+        MDIconButton:
+            id: copy_icon_button
+            icon: "content-copy"
+            icon_size: "35dp"
+            theme_text_color: "Custom"
+            text_color: app.black
+            ripple_scale: 0
+            pos_hint: {"center_y": 0.5}
+
+        TextInput:
+            id: restore_text_input
+            background_color: app.transparent
+            foreground_color: app.black # Color of input text
+            cursor_color: app.black
+            hint_text_color:app.half_black
+            hint_text: "Restore old..."
+            font_name: app.font_thin
+            font_size: "15.5dp"
+            size_hint: (None, None)
+            width: boxlay.width - restore_icon_button.width - copy_icon_button.width - close_icon_button.width - dp(15)
+            height: boxlay.height
+            multiline: False
+            halign: "left"
+            pos_hint: {"center_y": 0.5}
+            padding: ["0dp", "15dp", "0dp", "0dp"]
+
+        MDIconButton:
+            id: close_icon_button
+            icon: "window-close"
+            icon_size: "35dp"
+            theme_text_color: "Custom"
+            text_color: app.black
+            ripple_scale: 0
+            pos_hint: {"center_y": 0.5}
+            on_release: restore_text_input.text = ""
+
+        MDIconButton:
+            id: restore_icon_button
+            icon: "restore"
+            icon_size: "35dp"
+            theme_text_color: "Custom"
+            text_color: app.black
+            ripple_scale: 0
+            pos_hint: {"center_y": 0.5}
 
 <ListItem>:
     bg_color: app.light_sky_blue
@@ -143,22 +199,10 @@
             font_name: app.font_thin
             font_size: "15.5dp"
             size_hint: (None, None)
-            width: boxlay.width - checkbox_icon.width - trash_icon_button.width - copy_icon_button.width
+            width: boxlay.width - checkbox_icon.width - trash_icon_button.width
             height: boxlay.height
             halign: "left"
             pos_hint: {"center_y": 0.5}
-
-        MDIconButton:
-            id: copy_icon_button
-            icon: "content-copy"
-            icon_size: "22.5dp"
-            theme_text_color: "Custom"
-            text_color: app.black
-            adaptive_size: True
-            pos_hint: {"center_y": 0.5}
-            ripple_scale: 0
-            on_release:
-                Clipboard.copy(name_text_input.text)
 
         MDIconButton:
             id: trash_icon_button

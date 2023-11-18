@@ -22,6 +22,7 @@ from kivymd.uix.snackbar import Snackbar
 from kivy.core.window import Window
 from kivy.metrics import dp
 from kivy.utils import platform
+from kivy.core.clipboard import Clipboard
 
 import sqlite3
 from ast import literal_eval  # str(dict) to dict
@@ -42,12 +43,20 @@ class ToDoListScreen(MDScreen):
 
     # ------------------------------------------------------------------------------------------------------------------  
     def mymenu_config(self):
+        """
+        Menu config
+        """
         self.ids.my_menu.ids.plus_icon_button.bind(on_release=lambda *args: self.create_new_item())
         self.ids.my_menu.ids.search_text_input.bind(text=lambda instance, value: self.search_for_item(value))
         self.ids.title.bind(text=lambda *args: self.save_user_data())
+        self.ids.my_menu2.ids.restore_icon_button.bind(on_release=lambda item: self.restore_items(item))
+        self.ids.my_menu2.ids.copy_icon_button.bind(on_release=lambda *args: self.copy_all())
 
     # ------------------------------------------------------------------------------------------------------------------  
     def save_user_data(self):
+        """
+        Save all info to temporary dict and then database
+        """
         # Create list of all
         # all = []
         # for i in app.user_data["app_info"]:
@@ -114,7 +123,10 @@ class ToDoListScreen(MDScreen):
         # Activate MyMenu config
         self.mymenu_config()
 
-    def create_new_item(self):
+    def create_new_item(self, title: str = ""):
+        """
+        Create new item
+        """
         # Save old
         children = self.ids.my_list.children[:]
         app.original_order = children
@@ -123,7 +135,7 @@ class ToDoListScreen(MDScreen):
 
         # Add new
         item = ListItem(
-            title="",
+            title=title,
             id=str(secrets.token_hex(15))
         )
         item.ids.name_text_input.bind(text=self.save_list)
@@ -139,18 +151,46 @@ class ToDoListScreen(MDScreen):
         app.original_order = children
 
     # ------------------------------------------------------------------------------------------------------------------
+    def restore_items(self, item):
+        """
+        Restore items with the \_/ format
+        """
+        # Set value
+        value = item.parent.parent.ids.restore_text_input.text
+        # Set text
+        self.ids.loading_text.text = "LOADING..."
+
+        if "\_/" in value:
+            # Search for the list_item that has value in its title property
+            for title in reversed(value.split("\_/")):
+                # Add items
+                self.create_new_item(title)
+
+            # Update database
+            self.save_user_data()
+             
+        # Set text
+        self.ids.loading_text.text = ""
+
+    # ------------------------------------------------------------------------------------------------------------------
     def search_for_item(self, value):
+        """
+        Search for title
+        """
         # Clear old
         self.ids.my_list.clear_widgets()
 
         # Search for the list_item that has value in its title property
         for child in reversed(app.original_order):
             # If found, add to the screen
-            if value in child.title:
+            if value.lower() in child.title.lower():
                 self.ids.my_list.add_widget(child)
 
     # ------------------------------------------------------------------------------------------------------------------
     def save_list(self, instance, value):
+        """
+        Add title info to temporary dict and then database
+        """
         # Save the ListItem in a variable
         item = instance.parent.parent
         # Save the current value typed in the TextInput in a variable
@@ -167,6 +207,9 @@ class ToDoListScreen(MDScreen):
 
     # ------------------------------------------------------------------------------------------------------------------
     def update_check(self, instance, value):
+        """
+        Add check info to temporary dict and then database
+        """
         # Save the ListItem in a variable
         item = instance.parent.parent
 
@@ -178,6 +221,15 @@ class ToDoListScreen(MDScreen):
         # Update database
         self.save_user_data()
 
+    # ------------------------------------------------------------------------------------------------------------------
+    def copy_all(self):
+        """
+        Copy all items titles
+        """
+        x = ""
+        for title in app.user_data["app_info"]:
+            x += title["Title"] + "\_/"
+        Clipboard.copy(x[:-3])
 
 ########################################################################################################################
 ###################################################   WIDGETS   ########################################################
@@ -217,7 +269,6 @@ class ListItem(OneLineAvatarIconListItem):
         self.i += 1
         Clock.schedule_once(lambda *args: self.verify_double_click(), 0.5)
 
-    # ------------------------------------------------------------------------------------------------------------------    
     def verify_double_click(self):
         """
         Verify if the user clicked two times in the trash icon
@@ -233,6 +284,19 @@ class ListItem(OneLineAvatarIconListItem):
         """
         Snackbar(
             text=f"[font={app.font_thin}][color=#000000]Double click it to remove item.[/font][/color]",
+            bg_color=app.sky_blue,
+            duration=1.5,
+            snackbar_x="10dp",
+            snackbar_y="10dp",
+            size_hint_x=(Window.width - (dp(10) * 2)) / Window.width
+        ).open()
+    
+    def open_snackbar2(self):
+        """
+        Snackbar used when user presses the trash item one time
+        """
+        Snackbar(
+            text=f"[font={app.font_thin}][color=#000000]Double click it to copy all.[/font][/color]",
             bg_color=app.sky_blue,
             duration=1.5,
             snackbar_x="10dp",
