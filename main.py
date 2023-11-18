@@ -36,18 +36,18 @@ class ToDoListScreen(MDScreen):
         """
         What it will do when the moment it enters the screen
         """
-        Clock.schedule_once(self.generate_list)
+        Clock.schedule_once(lambda dt: self.generate_list())
         Clock.schedule_once(lambda dt: app.change_statusbar_color_to())
         Clock.schedule_once(lambda dt: app.change_navbar_color_to())
 
     # ------------------------------------------------------------------------------------------------------------------  
     def mymenu_config(self):
-        self.ids.my_menu.ids.plus_icon_button.bind(on_release=self.create_new_item)
-        self.ids.my_menu.ids.search_text_input.bind(text=self.search_for_item)
-        self.ids.title.bind(text=self.save_user_data)
+        self.ids.my_menu.ids.plus_icon_button.bind(on_release=lambda *args: self.create_new_item())
+        self.ids.my_menu.ids.search_text_input.bind(text=lambda instance, value: self.search_for_item(value))
+        self.ids.title.bind(text=lambda *args: self.save_user_data())
 
     # ------------------------------------------------------------------------------------------------------------------  
-    def save_user_data(self, *args):
+    def save_user_data(self):
         # Create list of all
         # all = []
         # for i in app.user_data["app_info"]:
@@ -88,7 +88,7 @@ class ToDoListScreen(MDScreen):
         print(app.user_data)
 
     # ------------------------------------------------------------------------------------------------------------------  
-    def generate_list(self, *args):
+    def generate_list(self):
         """
         Generate list of items
         """
@@ -114,7 +114,7 @@ class ToDoListScreen(MDScreen):
         # Activate MyMenu config
         self.mymenu_config()
 
-    def create_new_item(self, *args):
+    def create_new_item(self):
         # Save old
         children = self.ids.my_list.children[:]
         app.original_order = children
@@ -139,7 +139,7 @@ class ToDoListScreen(MDScreen):
         app.original_order = children
 
     # ------------------------------------------------------------------------------------------------------------------
-    def search_for_item(self, instance, value):
+    def search_for_item(self, value):
         # Clear old
         self.ids.my_list.clear_widgets()
 
@@ -155,8 +155,6 @@ class ToDoListScreen(MDScreen):
         item = instance.parent.parent
         # Save the current value typed in the TextInput in a variable
         current_title = value
-        # List of titles in app.original_order
-        item_titles = [i["Title"] for i in app.user_data["app_info"]]
 
         # Search for the list_item
         for child in app.original_order:
@@ -217,10 +215,10 @@ class ListItem(OneLineAvatarIconListItem):
                 app.sm.get_screen("ToDoListScreen").save_user_data()
 
         self.i += 1
-        Clock.schedule_once(self.verify_double_click, 0.5)
+        Clock.schedule_once(lambda *args: self.verify_double_click(), 0.5)
 
     # ------------------------------------------------------------------------------------------------------------------    
-    def verify_double_click(self, *args):
+    def verify_double_click(self):
         """
         Verify if the user clicked two times in the trash icon
         """
@@ -234,11 +232,11 @@ class ListItem(OneLineAvatarIconListItem):
         Snackbar used when user presses the trash item one time
         """
         Snackbar(
-            text=f"[font={app.font_thin}][color=#000000]Double click to remove item[/font][/color]",
+            text=f"[font={app.font_thin}][color=#000000]Double click it to remove item.[/font][/color]",
             bg_color=app.sky_blue,
-            duration=1,
+            duration=1.5,
             snackbar_x="10dp",
-            snackbar_y="65dp",
+            snackbar_y="10dp",
             size_hint_x=(Window.width - (dp(10) * 2)) / Window.width
         ).open()
 
