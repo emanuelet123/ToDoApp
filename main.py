@@ -37,7 +37,7 @@ class ToDoListScreen(MDScreen):
         """
         What it will do when the moment it enters the screen
         """
-        Clock.schedule_once(lambda dt: self.generate_list())
+        Clock.schedule_once(lambda dt: self.generate_list(), 1)
         Clock.schedule_once(lambda dt: app.change_statusbar_color_to())
         Clock.schedule_once(lambda dt: app.change_navbar_color_to())
 
