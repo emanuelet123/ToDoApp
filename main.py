@@ -155,8 +155,9 @@ class ToDoListScreen(MDScreen):
         """
         Restore items with the \_/ format
         """
-        # Set value
+        # Set values
         value = item.parent.parent.ids.restore_text_input.text
+        all_widgets = [i.title for i in app.original_order]
         # Set text
         self.ids.loading_text.text = "LOADING..."
 
@@ -164,7 +165,8 @@ class ToDoListScreen(MDScreen):
             # Search for the list_item that has value in its title property
             for title in reversed(value.split("\_/")):
                 # Add items
-                self.create_new_item(title)
+                if title not in all_widgets:
+                    self.create_new_item(title)
 
             # Update database
             self.save_user_data()
