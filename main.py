@@ -224,7 +224,7 @@ class ToDoListScreen(MDScreen):
         Copy all items titles
         """
         x = ""
-        for title in app.user_data["app_info"]:
+        for title in reversed(app.user_data["app_info"]):
             x += title["Title"] + "\_/"
         Clipboard.copy(x[:-3])
 
