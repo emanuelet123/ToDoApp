@@ -7,10 +7,10 @@
 
 **To-Do App** is an intuitive task management application with a user-friendly interface, seamlessly aiding individuals in organizing and prioritizing their daily activities.
 
-## Download
-Get the App apk format [here](https://github.com/emanuelet123/ToDoApp/blob/main/bin).
-
-**Android >= 8.0**
+## APK
+- **Android Version** >= 14
+- **Android API** >= 34
+- **[Download APK](https://github.com/emanuelet123/ToDoApp/blob/main/bin)**
 
 ## License
 To-Do App is released under the terms of [MIT License](https://github.com/emanuelet123/ToDoApp/blob/main/LICENSE).
