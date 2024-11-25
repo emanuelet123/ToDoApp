@@ -42,7 +42,7 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3==3.10.4,kivy==2.2.1,kivymd==1.1.1,sqlite3,kvdroid
+requirements = python3,kivy==2.3.0,kivymd==1.2.0,sqlite3,kvdroid
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
@@ -77,7 +77,7 @@ orientation = portrait
 # author = © Copyright Info
 
 # Kivy version to use
-osx.kivy_version = 2.2.1
+osx.kivy_version = 2.3.0
 
 #
 # Android specific
@@ -117,7 +117,7 @@ icon.adaptive_background.filename = Images/icon-adaptative-background_108x108.pn
 # https://apilevels.com/
 #android.api = 31
 #android.api = 33
-android.api = 26
+android.api = 34
 
 # (int) Minimum API your APK / AAB will support.
 #android.minapi = 21
@@ -300,9 +300,9 @@ android.apptheme = @android:style/Theme.NoTitleBar
 
 # (list) The Android archs to build for, choices: armeabi-v7a, arm64-v8a, x86, x86_64
 # In past, was `android.arch` as we weren't supporting builds for multiple archs at the same time.
-#android.archs = armeabi-v7a, arm64-v8a
+android.archs = armeabi-v7a, arm64-v8a
 #android.archs = arm64-v8a
-android.archs = armeabi-v7a
+#android.archs = armeabi-v7a
 
 # (int) overrides automatic versionCode computation (used in build.gradle)
 # this is not the same as app version and should only be edited if you know what you're doing

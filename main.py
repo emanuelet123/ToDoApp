@@ -1,6 +1,6 @@
 from kivy import require
 # Kivy version used in this project
-require("2.2.1")
+require("2.3.0")
 
 from kivy.core.window import Window
 
